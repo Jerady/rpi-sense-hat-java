@@ -1,58 +1,47 @@
 package rpi.sensehat.api;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Created by jcincera on 22/06/2017.
  */
-public class EnvironmentalSensorTest {
+class EnvironmentalSensorTest {
 
-    private EnvironmentalSensor sensor = new EnvironmentalSensor();
+    private final EnvironmentalSensor sensor = new EnvironmentalSensor();
 
     @Test
-    public void getHumidityTest() throws Exception {
+    void getHumidityTest() {
         float humidity = sensor.getHumidity();
-
-        assertNotNull(humidity);
         assertTrue(humidity > 10.0);
         assertTrue(humidity < 100.0);
     }
 
     @Test
-    public void getTemperatureTest() throws Exception {
+    void getTemperatureTest() {
         float temperature = sensor.getTemperature();
-
-        assertNotNull(temperature);
         assertTrue(temperature > 10.0);
         assertTrue(temperature < 100.0);
     }
 
     @Test
-    public void getTemperatureFromHumidityTest() throws Exception {
+    void getTemperatureFromHumidityTest() {
         float temperatureFromHumidity = sensor.getTemperatureFromHumidity();
-
-        assertNotNull(temperatureFromHumidity);
         assertTrue(temperatureFromHumidity > 10.0);
         assertTrue(temperatureFromHumidity < 100.0);
     }
 
     @Test
-    public void getTemperatureFromPressureTest() throws Exception {
+    void getTemperatureFromPressureTest() {
         float temperatureFromPressure = sensor.getTemperatureFromPressure();
-
-        assertNotNull(temperatureFromPressure);
         assertTrue(temperatureFromPressure > 10.0);
         assertTrue(temperatureFromPressure < 100.0);
     }
 
     @Test
-    public void getPressureTest() throws Exception {
+    void getPressureTest() {
         float pressure = sensor.getPressure();
-
-        assertNotNull(pressure);
         assertTrue(pressure > 20.0);
         assertTrue(pressure < 1000.0);
     }

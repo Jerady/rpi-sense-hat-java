@@ -10,13 +10,13 @@ public enum Rotation {
     R_180("180"),
     R_270("270");
 
-    private String rotation;
+    private final String rot;
 
     Rotation(String rotation) {
-        this.rotation = rotation;
+        this.rot = rotation;
     }
 
-    public String getRotation() {
-        return rotation;
+    public String getRot() {
+        return rot;
     }
 }

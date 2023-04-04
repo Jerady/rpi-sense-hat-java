@@ -6,6 +6,7 @@ Simple Java wrapper for Sense Hat which allows to write various applications in 
 - https://github.com/RPi-Distro/python-sense-hat
 
 ### Supported components
+
 - Environmental sensors
 - IMU (inertial measurement unit)
 - LED Matrix
@@ -23,12 +24,16 @@ Simple Java wrapper for Sense Hat which allows to write various applications in 
 # On different platform
 ./gradlew clean build -x test
 ```
+
 - Copy _build/libs/java-executor-1.0-SNAPSHOT.jar_ into your project classpath
 - Alternatively it's possible to edit _rpi.sense.hat.example.Project_ and run on RPi
+
 ```
 ./gradlew run
 ```
+
 or as simple background process
+
 ```
 nohup ./gradle run &
 ```

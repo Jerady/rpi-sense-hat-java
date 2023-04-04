@@ -1,9 +1,8 @@
 package rpi.sensehat.connector;
 
+import rpi.sensehat.api.RpiSenseHatException;
 import rpi.sensehat.api.dto.CommandResult;
-import rpi.sensehat.exception.CommandException;
-import rpi.sensehat.exception.CommunicationException;
-import rpi.sensehat.exception.InvalidSystemArchitectureException;
+import rpi.sensehat.utils.OS;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -13,21 +12,22 @@ import java.io.InputStreamReader;
  */
 public class SimpleCommandExecutor implements CommandExecutor {
 
+    private static final String ANNOYING_COLOR_SENSOR_WARNING = "WARNING:root:Failed to initialise TCS34725 colour sensor. (sensor not present)";
+
+
     SimpleCommandExecutor() {
-        if (!System.getProperty("os.arch").toLowerCase().contains("arm")) {
-            throw new InvalidSystemArchitectureException("System architecture is not supported for this command executor");
+        if (!OS.isArmArchitecure()) {
+            throw new RpiSenseHatException("System architecture is not supported for this command executor");
         }
     }
 
     @Override
     public CommandResult execute(Command command, String... args) {
         try {
-
             // Create command
             final String completeCommand = createCompleteCommand(command, args);
 
             // Call
-            System.out.println("Command: " + command.name());
             ProcessBuilder pb = new ProcessBuilder("python", "-c", completeCommand);
             pb.redirectErrorStream(true);
             Process p = pb.start();
@@ -36,40 +36,26 @@ public class SimpleCommandExecutor implements CommandExecutor {
             BufferedReader output = new BufferedReader(new InputStreamReader(p.getInputStream()));
             StringBuilder result = new StringBuilder();
             String line;
-
             while ((line = output.readLine()) != null) {
                 result.append(line);
-                result.append(lineSeparator);
+                result.append(LINE_SEPARATOR);
             }
-            System.out.println("Command result: " + result.toString());
-
             // Handle result
             waitForCommand(p);
-            checkCommandException(result);
-            return new CommandResult(result.toString());
-        }
-        catch (Exception e) {
-            System.err.println(e);
-
-            if (e instanceof CommandException) {
-                throw (CommandException) e;
-            }
-
-            throw new CommunicationException("Communication with Sense Hat failed!", e);
+            return new CommandResult(cleanupResult(result.toString()));
+        } catch (Exception e) {
+            throw new RpiSenseHatException("Communication with Sense Hat failed!", e);
         }
     }
 
-    private void checkCommandException(StringBuilder result) {
-        if (result.toString().contains("Traceback") || result.toString().contains("Error")) {
-            throw new CommandException("Command execution failed!\n" + result.toString());
-        }
+    private String cleanupResult(String result) {
+        return result.replace(ANNOYING_COLOR_SENSOR_WARNING, "").trim();
     }
 
     private String createCompleteCommand(Command command, String[] args) {
         String rawCommand = (args != null && args.length > 0) ?
                 String.format(command.getCommand(), (Object[]) args) :
                 command.getCommand();
-
         return Command.IMPORT_SENSE_HAT.getCommand() + ";" +
                 Command.SENSE_OBJECT.getCommand() + ";" +
                 rawCommand;
@@ -79,9 +65,9 @@ public class SimpleCommandExecutor implements CommandExecutor {
         try {
             p.waitFor();
             Thread.sleep(100);
-        }
-        catch (InterruptedException e) {
-            System.err.println(e);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
     }
 }

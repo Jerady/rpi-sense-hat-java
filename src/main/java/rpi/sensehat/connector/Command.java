@@ -62,9 +62,10 @@ public enum Command {
     GET_EVENTS("e = sensehat.stick.get_events();" +
             "print(str('|'.join('{}@{}@{}'.format(i.action, i.direction, i.timestamp) for i in e)))"),
     WAIT_FOR_EVENT_EMPTY_BUFFER("e = sensehat.stick.wait_for_event(%s)\n" +
-            "print('{}@{}@{}'.format(e.action, e.direction, e.timestamp))"),;
+            "print('{}@{}@{}'.format(e.action, e.direction, e.timestamp))"),
+    ;
 
-    private String rawCommand;
+    private final String rawCommand;
 
     Command(String command) {
         this.rawCommand = command;

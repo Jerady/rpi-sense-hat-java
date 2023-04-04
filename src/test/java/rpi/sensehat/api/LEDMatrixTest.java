@@ -1,30 +1,30 @@
 package rpi.sensehat.api;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import rpi.sensehat.api.dto.Color;
 import rpi.sensehat.api.dto.Rotation;
 
 /**
  * Created by jcincera on 04/07/2017.
  */
-public class LEDMatrixTest {
+class LEDMatrixTest {
 
-    private LEDMatrix ledMatrix = new LEDMatrix();
+    private final LEDMatrix ledMatrix = new LEDMatrix();
 
-    @Before
+    @BeforeEach
     public void setup() {
         clearWithEmpty();
     }
 
-    @After
+    @AfterEach
     public void teardown() {
         clearWithEmpty();
     }
 
     @Test
-    public void showMessageTest() {
+    void showMessageTest() {
         System.out.println("Show: abc");
         ledMatrix.showMessage("abc");
         waitFor(5);
@@ -40,7 +40,7 @@ public class LEDMatrixTest {
     }
 
     @Test
-    public void showLetterTest() {
+    void showLetterTest() {
         System.out.println("Show: X");
         ledMatrix.showLetter("X");
         waitFor(5);
@@ -56,7 +56,7 @@ public class LEDMatrixTest {
     }
 
     @Test
-    public void lowLightTest() {
+    void lowLightTest() {
         ledMatrix.lowLight(false);
         ledMatrix.showLetter("X");
         waitFor(1);
@@ -69,7 +69,7 @@ public class LEDMatrixTest {
     }
 
     @Test
-    public void setRotationTest() {
+    void setRotationTest() {
         ledMatrix.setRotation(Rotation.R_270);
         ledMatrix.showMessage("abc");
         waitFor(5);
@@ -77,14 +77,14 @@ public class LEDMatrixTest {
     }
 
     @Test
-    public void setPixelTest() {
+    void setPixelTest() {
         ledMatrix.setPixel(1, 1, Color.RED);
         ledMatrix.setPixel(3, 3, Color.GREEN);
         ledMatrix.setPixel(5, 5, Color.BLUE);
     }
 
     @Test
-    public void setPixelsTest() {
+    void setPixelsTest() {
         final Color X = Color.GREEN;
         final Color O = Color.BLUE;
 
@@ -118,8 +118,7 @@ public class LEDMatrixTest {
     private void waitFor(Integer seconds) {
         try {
             Thread.sleep(seconds * 1000);
-        }
-        catch (InterruptedException e) {
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }

@@ -10,6 +10,8 @@ import rpi.sensehat.utils.PythonUtils;
  */
 public class LEDMatrix extends APIBase {
 
+    private static final String NOT_SUPPORTED_YET = "Not supported yet";
+
     LEDMatrix() {
     }
 
@@ -18,9 +20,8 @@ public class LEDMatrix extends APIBase {
      *
      * @param rotation rotation angle
      */
-    //todo probably doesn't work properly in Python core
     public void setRotation(Rotation rotation) {
-        execute(Command.SET_ROTATION, rotation.getRotation()).checkEmpty();
+        execute(Command.SET_ROTATION, rotation.getRot());
     }
 
     /**
@@ -46,7 +47,7 @@ public class LEDMatrix extends APIBase {
         }
 
         matrix.deleteCharAt(matrix.length() - 1); // remove last ","
-        execute(Command.SET_PIXELS, matrix.toString()).checkEmpty();
+        execute(Command.SET_PIXELS, matrix.toString());
     }
 
     /**
@@ -59,14 +60,14 @@ public class LEDMatrix extends APIBase {
     public void setPixel(Integer x, Integer y, Color color) {
         execute(Command.SET_PIXEL,
                 String.valueOf(x), String.valueOf(y),
-                color.r(), color.g(), color.b()).checkEmpty();
+                color.r(), color.g(), color.b());
     }
 
     /**
      * Clear display (blank/off)
      */
     public void clear() {
-        execute(Command.CLEAR).checkEmpty();
+        execute(Command.CLEAR);
     }
 
     /**
@@ -75,7 +76,7 @@ public class LEDMatrix extends APIBase {
      * @param color color
      */
     public void clear(Color color) {
-        execute(Command.CLEAR_WITH_COLOR, color.r(), color.g(), color.b()).checkEmpty();
+        execute(Command.CLEAR_WITH_COLOR, color.r(), color.g(), color.b());
     }
 
     /**
@@ -88,7 +89,7 @@ public class LEDMatrix extends APIBase {
             throw new IllegalArgumentException("Character: > ' < is not supported in message!");
         }
 
-        execute(Command.SHOW_MESSAGE, message).checkEmpty();
+        execute(Command.SHOW_MESSAGE, message);
     }
 
     /**
@@ -108,7 +109,7 @@ public class LEDMatrix extends APIBase {
                 message,
                 String.format("%.2f", scrollSpeed),
                 textColor.r(), textColor.g(), textColor.b(),
-                backColor.r(), backColor.g(), backColor.b()).checkEmpty();
+                backColor.r(), backColor.g(), backColor.b());
     }
 
     /**
@@ -118,10 +119,10 @@ public class LEDMatrix extends APIBase {
      */
     public void waitFor(Integer seconds) {
         try {
-            Thread.sleep(seconds * 1000);
-        }
-        catch (InterruptedException e) {
+            Thread.sleep(seconds * 1000L);
+        } catch (InterruptedException e) {
             e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
     }
 
@@ -138,7 +139,7 @@ public class LEDMatrix extends APIBase {
             throw new IllegalArgumentException("Only one letter is supported!");
         }
 
-        execute(Command.SHOW_LETTER, letter).checkEmpty();
+        execute(Command.SHOW_LETTER, letter);
     }
 
     /**
@@ -152,7 +153,7 @@ public class LEDMatrix extends APIBase {
         execute(Command.SHOW_LETTER_PARAMETRIZED,
                 letter,
                 letterColor.r(), letterColor.g(), letterColor.b(),
-                backColor.r(), backColor.g(), backColor.b()).checkEmpty();
+                backColor.r(), backColor.g(), backColor.b());
     }
 
     /**
@@ -161,34 +162,34 @@ public class LEDMatrix extends APIBase {
      * @param lowLight true/false
      */
     public void lowLight(boolean lowLight) {
-        execute(Command.LOW_LIGHT, PythonUtils.toBoolean(lowLight)).checkEmpty();
+        execute(Command.LOW_LIGHT, PythonUtils.toBoolean(lowLight));
     }
 
     public void gamma() {
-        throw new UnsupportedOperationException("Not supported yet");
+        throw new UnsupportedOperationException(NOT_SUPPORTED_YET);
     }
 
     public void gammaReset() {
-        throw new UnsupportedOperationException("Not supported yet");
+        throw new UnsupportedOperationException(NOT_SUPPORTED_YET);
     }
 
     public void loadImage() {
-        throw new UnsupportedOperationException("Not supported yet");
+        throw new UnsupportedOperationException(NOT_SUPPORTED_YET);
     }
 
     public void flipHorizontally() {
-        throw new UnsupportedOperationException("Not supported yet");
+        throw new UnsupportedOperationException(NOT_SUPPORTED_YET);
     }
 
     public void flipVertically() {
-        throw new UnsupportedOperationException("Not supported yet");
+        throw new UnsupportedOperationException(NOT_SUPPORTED_YET);
     }
 
     public void getPixels() {
-        throw new UnsupportedOperationException("Not supported yet");
+        throw new UnsupportedOperationException(NOT_SUPPORTED_YET);
     }
 
     public void getPixel() {
-        throw new UnsupportedOperationException("Not supported yet");
+        throw new UnsupportedOperationException(NOT_SUPPORTED_YET);
     }
 }

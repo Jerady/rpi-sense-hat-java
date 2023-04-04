@@ -24,7 +24,7 @@ public class IMU extends APIBase {
         execute(Command.SET_IMU_CONFIG,
                 PythonUtils.toBoolean(compassEnabled),
                 PythonUtils.toBoolean(gyroscopeEnabled),
-                PythonUtils.toBoolean(accelerometerEnabled)).checkEmpty();
+                PythonUtils.toBoolean(accelerometerEnabled));
     }
 
     /**

@@ -1,21 +1,18 @@
 package rpi.sensehat.api;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import rpi.sensehat.api.dto.JoystickEvent;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-/**
- * Created by jcincera on 17/07/2017.
- */
-@Ignore
-public class JoystickTest {
+@Disabled
+class JoystickTest {
 
-    private Joystick joystick = new Joystick();
+    private final Joystick joystick = new Joystick();
 
     @Test
-    public void waitForEventTest() {
+    void waitForEventTest() {
         JoystickEvent e = joystick.waitForEvent();
 
         System.out.println("Action: " + e.getAction());
@@ -28,7 +25,7 @@ public class JoystickTest {
     }
 
     @Test
-    public void waitForEventWithEmptyBufferTest() {
+    void waitForEventWithEmptyBufferTest() {
         JoystickEvent e = joystick.waitForEvent(true);
 
         System.out.println("Action: " + e.getAction());
